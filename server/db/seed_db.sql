@@ -14,9 +14,9 @@ INSERT INTO Users (name, surname, email, salt, password, role) VALUES
   ('Paolo', 'Greco', 'paolo.greco@example.com', 'b6422c7b0d12ff9cad490089dd76c469', '1d0754e711599a682bacae0a372c9275a673a39636fed9c6d0ffcb6e71bb2892', 'teacher');
   
 
--- Compito 1 (open), definito da Anna Ferrari (teacherId=7)
+-- Compito 1 (open), definito da Anna Ferrari (teacherId=10)
 INSERT INTO Assignments (teacherId, question, answerText, grade, status) VALUES
-  (7, 'Describe the structure and purpose of RESTful APIs.', 
+  (10, 'Describe the structure and purpose of RESTful APIs.', 
    'RESTful APIs follow a client-server architecture and use standard HTTP methods...', 
    NULL, 'open');
 
@@ -26,9 +26,9 @@ INSERT INTO AssignmentGroupMembers (assignmentId, studentId) VALUES
   (1, 2),
   (1, 3);
 
--- Compito 2 (closed), definito da Paolo Greco (teacherId=8)
+-- Compito 2 (closed), definito da Paolo Greco (teacherId=11)
 INSERT INTO Assignments (teacherId, question, answerText, grade, status) VALUES
-  (8, 'Explain the concept of closures in JavaScript.',
+  (11, 'Explain the concept of closures in JavaScript.',
    'A closure is the combination of a function and the lexical environment within which that function was declared.',
    28, 'closed');
 
@@ -38,7 +38,7 @@ INSERT INTO AssignmentGroupMembers (assignmentId, studentId) VALUES
 
 -- Compito 3 (closed), definito da Anna Ferrari
 INSERT INTO Assignments (teacherId, question, answerText, grade, status) VALUES
-  (7, 'What are the main differences between SQL and NoSQL databases?',
+  (10, 'What are the main differences between SQL and NoSQL databases?',
    'SQL databases are relational and use structured query language. NoSQL databases are non-relational and store data differently.',
    30, 'closed');
 
@@ -49,20 +49,20 @@ INSERT INTO AssignmentGroupMembers (assignmentId, studentId) VALUES
 
 -- Compito 4 (open), assegnato da Paolo Greco
 INSERT INTO Assignments (teacherId, question, answerText, grade, status) VALUES
-  (8, 'What are the advantages of using Git in a development team?',
+  (11, 'What are the advantages of using Git in a development team?',
    'Git allows multiple people to collaborate efficiently, track changes, and manage code versions.',
    NULL, 'open');
 
 INSERT INTO AssignmentGroupMembers (assignmentId, studentId) VALUES
-  (4, 9),
-  (4, 10);
+  (4, 7),
+  (4, 8);
 
 -- Compito 5 (open), assegnato da Anna Ferrari
 INSERT INTO Assignments (teacherId, question, answerText, grade, status) VALUES
-  (7, 'Briefly explain the MVC architectural pattern.',
+  (10, 'Briefly explain the MVC architectural pattern.',
    'MVC stands for Model-View-Controller and separates application logic from UI, improving maintainability.',
    NULL, 'open');
 
 INSERT INTO AssignmentGroupMembers (assignmentId, studentId) VALUES
-  (5, 11),
-  (5, 9);
+  (5, 9),
+  (5, 8);
