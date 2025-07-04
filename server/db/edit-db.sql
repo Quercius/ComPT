@@ -1,37 +1,52 @@
--- Inserimento nuovi studenti
-INSERT INTO Students (name, surname) VALUES
-  ('Alessia', 'Gallo'),
-  ('Davide', 'Fontana'),
-  ('Martina', 'Romano');
+-- Assignment 6: answered, closed
+INSERT INTO Assignments (teacherId, question, answerText, grade, status)
+VALUES
+(
+  11,
+  'Explain the SOLID principles in object-oriented programming.',
+  'The SOLID principles include Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, and Dependency Inversion.',
+  30,
+  'closed'
+);
 
--- Inserimento utenti associati ai nuovi studenti
-INSERT INTO Users (username, password, role, referenceId) VALUES
-  ('alessia.gallo', 'password7', 'student', 7),
-  ('davide.fontana', 'password8', 'student', 8),
-  ('martina.romano', 'password9', 'student', 9);
-
--- Compito 4 (open) assegnato da Paolo Greco
-INSERT INTO Assignments (teacherId, question, status) VALUES
-  (2, 'What are the advantages of using Git in a development team?', 'open');
-
--- Gruppo per Compito 4: Alessia, Davide
+-- gruppo (luca + giulia + elena) 
 INSERT INTO AssignmentGroupMembers (assignmentId, studentId) VALUES
-  (4, 7),
-  (4, 8);
+  (6, 1), -- Luca
+  (6, 2), -- Giulia
+  (6, 4); -- Elena
 
--- Risposta fornita da Davide
-INSERT INTO Answers (assignmentId, answerText, submittedBy) VALUES
-  (4, 'Git allows multiple people to collaborate efficiently, track changes, and manage code versions.', 8);
 
--- Compito 5 (open) assegnato da Anna Ferrari
-INSERT INTO Assignments (teacherId, question, status) VALUES
-  (1, 'Briefly explain the MVC architectural pattern.', 'open');
+-- Assignment 7: answered, open
+INSERT INTO Assignments (teacherId, question, answerText, grade, status)
+VALUES
+(
+  11,
+  'Describe the event loop mechanism in Node.js.',
+  'The event loop handles asynchronous callbacks by offloading operations and placing callbacks in a queue when ready.',
+  NULL,
+  'open'
+);
 
--- Gruppo per Compito 5: Martina, Alessia
+-- gruppo (luca + marco + sara)
 INSERT INTO AssignmentGroupMembers (assignmentId, studentId) VALUES
-  (5, 9),
-  (5, 7);
+  (7, 1), -- Luca
+  (7, 3), -- Marco
+  (7, 6); -- Sara
 
--- Risposta fornita da Alessia
-INSERT INTO Answers (assignmentId, answerText, submittedBy) VALUES
-  (5, 'MVC stands for Model-View-Controller and separates application logic from UI, improving maintainability.', 7);
+
+-- Assignment 8: no answer, open
+INSERT INTO Assignments (teacherId, question, answerText, grade, status)
+VALUES
+(
+  11,
+  'What is a transaction in a relational database, and what are ACID properties?',
+  NULL,
+  NULL,
+  'open'
+);
+
+-- gruppo (luca + francesco + alessia)
+INSERT INTO AssignmentGroupMembers (assignmentId, studentId) VALUES
+  (8, 1), -- Luca
+  (8, 5), -- Francesco
+  (8, 7); -- Alessia
