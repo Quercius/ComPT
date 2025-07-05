@@ -28,8 +28,6 @@ const teacherDao = {
         if (err) {
           console.error("Error in teacherDao.getAllAssignments execution: ", err);  
           reject(err);
-        } else if(rows===undefined || rows.length===0) {
-          console.error("Error in teacherDao.getAllAssignments: assignments not found")
         } else {
           const assignments = rows.map(row => ({
             id: row.id,
@@ -73,7 +71,7 @@ const teacherDao = {
         if (err) {
           console.error("Error in teacherDao.getAssignmentById execution: ", err);
           reject(err);
-        } else if (!row || row===undefined) {
+        } else if (row===undefined) {
           reject(new Error("Error in teacherDao.getAssignmentById execution: assignment not found"));
         } else {
           resolve({
@@ -210,8 +208,6 @@ const teacherDao = {
         if (err) {
           console.error("Errore in teacherDao.listStudents execution: ", err);
           reject(err);
-        } else if(rows===undefined || rows.length===0) {
-           console.error("Errore in teacherDao.listStudents execution: students not found");
         }else { 
           resolve(rows);
         }
@@ -240,8 +236,6 @@ const teacherDao = {
         if (err) {
           console.error("Error in teacherDao.getClassStatus execution: ", err);
           reject(err);
-        } else if(rows===undefined || rows.length===0) {
-          console.error("Error in teacherDao.getClassStatus execution: class status not found");
         } else {
           const students = rows.map(row => ({
             id: row.id,

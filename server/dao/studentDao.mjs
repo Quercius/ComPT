@@ -29,8 +29,6 @@ const studentDao = {
         if (err) {
           console.error("Error in studentDao.getAllAssignments execution: ", err);
           reject(err);
-        } else if(!rows || rows.length===0 || rows===undefined) {
-          console.error("Error in studentDao.getAllAssignments execution: assignments not found");
         } else {
           const assignments = rows.map(row => ({
             id: row.id,
