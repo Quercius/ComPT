@@ -31,13 +31,14 @@ function NavHeader(props) {
                     ? "teacher/assignments"
                     : "student/assignments"
                 }
+                onClick={() => props.setMessage('')}
               >
                 Assignments
               </NavLink>
               }
-              {props.role==="teacher" && <NavLink className={({ isActive }) => "nav-link" + (isActive ? " active" : "")} to="/teacher/class-status">Class</NavLink>}
+              {props.role==="teacher" && <NavLink className={({ isActive }) => "nav-link" + (isActive ? " active" : "")} to="/teacher/class-status" onClick={() => props.setMessage('')}>Class</NavLink>}
           </ul>
-          {props.loggedIn ? <LogoutButton handleLogout={props.handleLogout} /> : <Link to='/login' className='btn btn-outline-light'>Login</Link>}
+          {props.loggedIn ? <LogoutButton handleLogout={props.handleLogout} onClick={() => props.setMessage('')}/> : <Link to='/login' className='btn btn-outline-light' onClick={() => props.setMessage('')}>Login</Link>}
         </div>
       </Container>
     </Navbar>

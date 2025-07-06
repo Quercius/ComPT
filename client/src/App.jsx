@@ -1,5 +1,6 @@
   import { useEffect, useState } from 'react';
   import {Routes, Route, Navigate, useNavigate} from "react-router"
+  import { Spinner } from 'react-bootstrap';
 
   import './App.css';
   import 'bootstrap/dist/css/bootstrap.min.css';
@@ -57,16 +58,14 @@
       checkAuth();
     }, []);
 
-    if (loading) {
-      return <div>Loading...</div>;
-    }
+    if (loading) return <Spinner animation="border" variant="primary" />;
 
     return (
       <Routes>
 
         <Route path="/" element={
           (!loggedIn)
-            ? <HomePage homepage loggedIn={loggedIn}/>
+            ? <HomePage homepage loggedIn={loggedIn} setMessage={setMessage}/>
             : <Navigate to={`/${user.role}/`} />
         } />
 

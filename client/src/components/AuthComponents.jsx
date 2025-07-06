@@ -1,5 +1,5 @@
 import { useActionState } from "react";
-import { Button, Form, Row, Col, Alert} from 'react-bootstrap'
+import { Button, Form, Row, Col, Alert, Spinner} from 'react-bootstrap'
 import { Link } from 'react-router'
     
 function LoginForm(props) {
@@ -26,7 +26,7 @@ function LoginForm(props) {
     return (
     <>
       {isPending && (
-        <Alert variant="warning">Please, wait for the server's response...</Alert>
+        <Spinner animation="border" variant="primary" />
       )}
     
       <h2 className="mb-4 pt-5 text-center">Log In</h2>

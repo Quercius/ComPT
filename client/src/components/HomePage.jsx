@@ -1,16 +1,12 @@
 import { Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo_compt.png";
-import { useEffect } from "react";
 
 function HomePage(props) {
 
-    useEffect(() => {
-        props.setMessage('');
-    }, [location.pathname]);
 
   return (
-    <Container className="d-flex flex-column justify-content-center align-items-center text-center mt-5">
+    <Container className="d-flex flex-column justify-content-center align-items-center text-center mt-5 pt-5">
       <img
         src={logo}
         alt="COMPT Logo"
@@ -24,7 +20,7 @@ function HomePage(props) {
       {props.loggedIn
         ? (
           <>
-            <Link to="assignments" className="mb-3">
+            <Link to="assignments" className="mb-3" onClick={() => props.setMessage('')}>
               <Button
                 style={{
                   backgroundColor: "#38b2ac",
@@ -42,6 +38,7 @@ function HomePage(props) {
                   backgroundColor: "#38b2ac",
                   borderColor: "#38b2ac",
                 }}
+                onClick={() => props.setMessage('')}
                 size="lg"
               >
                 Class status
