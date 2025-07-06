@@ -35,6 +35,7 @@ const getClassStatus = async () => {
   }
 };
 
+// GET api/assignments
 const getAssignments = async () => {
   const response = await fetch(SERVER_URL + "/api/assignments", {
     credentials: 'include'   
