@@ -33,7 +33,6 @@ const teacherDao = {
             id: row.id,
             question: row.question,
             status: row.status,
-            // non server teacherId
             teacher: `${row.teacherName} ${row.teacherSurname}`,
             groupMembers: row.groupMembers
               ? row.groupMembers.split(',').map(s => s.trim())
@@ -78,7 +77,6 @@ const teacherDao = {
             id: row.id,
             question: row.question,
             status: row.status,
-            //non serve teacherId
             teacher: `${row.teacherName} ${row.teacherSurname}`,
             groupMembers: row.groupMembers
               ? row.groupMembers.split(',').map(s => s.trim())
@@ -130,7 +128,7 @@ const teacherDao = {
   },
 
   // individua coppie di studenti che hanno condiviso 2+ assignment per lo stesso docente
-  findOverusedPairs: (teacherId, studentIds) => { //non segue SINTASSI GOOGLE
+  findOverusedPairs: (teacherId, studentIds) => { 
     return new Promise((resolve, reject) => {
       const placeholders = studentIds.map(() => '?').join(',');
       const sql = `
@@ -216,40 +214,62 @@ const teacherDao = {
   },
 
   // recupero delle info della classe, relative al professore loggato
-  getClassStatus: (teacherId) => {
-    return new Promise((resolve, reject) => {
-      const sql = `
+getClassStatus: (teacherId) => {
+  return new Promise((resolve, reject) => {
+    const sql = `
+      WITH GroupSizes AS (
         SELECT
-          S.id,
-          S.name,
-          S.surname,
-          COUNT(CASE WHEN A.status = 'open' THEN 1 END) AS openAssignments,
-          COUNT(CASE WHEN A.status = 'closed' THEN 1 END) AS closedAssignments,
-          ROUND(AVG(CASE WHEN A.grade IS NOT NULL THEN A.grade END), 2) AS averageScore
-        FROM Users S
-        LEFT JOIN AssignmentGroupMembers AGM ON S.id = AGM.studentId
-        LEFT JOIN Assignments A ON A.id = AGM.assignmentId AND A.teacherId = ?
-        WHERE S.role = 'student'
-        GROUP BY S.id
-      `;
-      db.all(sql, [teacherId], (err, rows) => {
-        if (err) {
-          console.error("Error in teacherDao.getClassStatus execution: ", err);
-          reject(err);
-        } else {
-          const students = rows.map(row => ({
-            id: row.id,
-            name: row.name,
-            surname: row.surname,
-            openAssignments: row.openAssignments ?? 0,
-            closedAssignments: row.closedAssignments ?? 0,
-            averageScore: isNaN(row.averageScore) ? 0 : row.averageScore
-          }));
-          resolve(students);
-        }
-      });
+          assignmentId,
+          COUNT(*) AS groupSize
+        FROM AssignmentGroupMembers
+        GROUP BY assignmentId
+      )
+      SELECT
+        S.id,
+        S.name,
+        S.surname,
+        COUNT(CASE WHEN A.status = 'open' THEN 1 END) AS openAssignments,
+        COUNT(CASE WHEN A.status = 'closed' THEN 1 END) AS closedAssignments,
+        ROUND(
+          SUM(
+            CASE
+              WHEN A.grade IS NOT NULL THEN A.grade * (1.0 / GS.groupSize)
+            END
+          ) / 
+          NULLIF(
+            SUM(
+              CASE
+                WHEN A.grade IS NOT NULL THEN (1.0 / GS.groupSize)
+              END
+            ), 0
+          )
+        , 2) AS averageScore
+      FROM Users S
+      LEFT JOIN AssignmentGroupMembers AGM ON S.id = AGM.studentId
+      LEFT JOIN Assignments A ON A.id = AGM.assignmentId AND A.teacherId = ?
+      LEFT JOIN GroupSizes GS ON A.id = GS.assignmentId
+      WHERE S.role = 'student'
+      GROUP BY S.id
+    `;
+
+    db.all(sql, [teacherId], (err, rows) => {
+      if (err) {
+        console.error("Error in teacherDao.getClassStatus execution: ", err);
+        reject(err);
+      } else {
+        const students = rows.map(row => ({
+          id: row.id,
+          name: row.name,
+          surname: row.surname,
+          openAssignments: row.openAssignments ?? 0,
+          closedAssignments: row.closedAssignments ?? 0,
+          averageScore: isNaN(row.averageScore) ? 0 : row.averageScore
+        }));
+        resolve(students);
+      }
     });
-  },
+  });
+},
 
 };
 

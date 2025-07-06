@@ -99,10 +99,10 @@ Description: Retrieve aggregated statistics of the class (number of open/closed 
 
   - `500 Internal Server Error` on server error
 
-### List all assignments
+### List all assignments for teacher
 - URL: `/api/assignments`
 - HTTP Method: `GET`
-- Authorization: authenticated users (students or teachers)
+- Authorization: only teachers
 
 Description: Retrieve the list of assignments:
 
@@ -136,6 +136,28 @@ body:
   ...
 ]
 ```
+
+  - `200 OK` on success
+
+  - `500 Internal Server Error` on error
+
+### List all assignments for student
+- URL: `/api/my-assignments`
+- HTTP Method: `GET`
+- Authorization: only students
+
+Description: Retrieve the list of assignments:
+
+if the user is a teacher, shows assignments the teacher has created
+
+if the user is a student, shows assignments the student is involved in
+- Request body: __None__
+- Response:
+```
+body: 
+  see below
+```
+
 
   - `200 OK` on success
 

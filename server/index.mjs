@@ -13,7 +13,6 @@ const port = 3001;
 
 app.use(express.json());
 app.use(morgan('dev'));
-// da aggiunger EXPRESS VALIDATOR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 const corsOptions = {
   origin: 'http://localhost:5173',
@@ -21,9 +20,7 @@ const corsOptions = {
   credentials: true
 }
 
-app.use(cors(corsOptions)); // basta questo per implementare cors a lato server
-
-
+app.use(cors(corsOptions)); 
 
 
 passport.use(new LocalStrategy(async function verify(username, password, cb) {
@@ -49,7 +46,7 @@ app.use(session({
 }));
 app.use(passport.authenticate('session'));
 
-const isLoggedIn = (req, res, next) => { //middleware
+const isLoggedIn = (req, res, next) => { 
   if(req.isAuthenticated()) {
     return next();
   }
@@ -71,8 +68,6 @@ const isStudentLoggedIn = (req, res, next) => {
 };
 
 
-
-
 // GET elenco studenti per compilazione form nuovo assignment (solo teacher)
 app.get('/api/students', isTeacherLoggedIn, async (req, res) => {
   try {
@@ -86,7 +81,6 @@ app.get('/api/students', isTeacherLoggedIn, async (req, res) => {
 // GET stato generale della classe (compiti aperti, chiusi, media voti)
 app.get('/api/class-status', isTeacherLoggedIn, async (req, res) => {
   try {
-    //const teacherId = req.query.teacherId;  // posso rimuovere
     const classStatus = await teacherDao.getClassStatus(req.user.id);
     res.json(classStatus);
   } catch (err) {
@@ -95,17 +89,22 @@ app.get('/api/class-status', isTeacherLoggedIn, async (req, res) => {
   }
 });
 
-// GET elenco dei compiti
+// GET elenco dei compiti di un professore
 app.get('/api/assignments', isLoggedIn, async (req, res) => {
-  //console.log("Utente autenticato:", req.user);
   try {
-    if (req.user.role === 'teacher') {
-      const assignments = await teacherDao.listAssignments(req.user.id);
-      res.json(assignments);
-    } else {
-      const assignments = await studentDao.listAssignments(req.user.id);
-      res.json(assignments);
-    }
+    const assignments = await teacherDao.listAssignments(req.user.id);
+    res.json(assignments);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error getting the assignments' });
+  }
+});
+
+// GET elenco dei compiti di uno studente
+app.get('/api/my-assignments', isLoggedIn, async (req, res) => {
+  try {
+    const assignments = await studentDao.listAssignments(req.user.id);
+    res.json(assignments);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Error getting the assignments' });
@@ -131,7 +130,7 @@ app.get('/api/assignments/:id', isLoggedIn, async (req, res) => {
 app.post('/api/assignments', isTeacherLoggedIn, async (req, res) => {
   const { question, groupMembers } = req.body;
 
-  const teacherId = req.user.id;  // preso dalla sessione
+  const teacherId = req.user.id;  
 
   if (!question || !Array.isArray(groupMembers) || groupMembers.length === 0) {
     return res.status(400).json({ error: 'Missing fields in form.' });
@@ -160,7 +159,7 @@ app.post('/api/assignments', isTeacherLoggedIn, async (req, res) => {
 });
 
 
-// PUT risposta di uno studente ad un assignment [potrei usare PATCH!]
+// PUT risposta di uno studente ad un assignment
 app.put('/api/assignments/:id/answer', isStudentLoggedIn, async (req, res) => {
   const assignmentId = parseInt(req.params.id);
   const { answerText } = req.body;
@@ -170,14 +169,6 @@ app.put('/api/assignments/:id/answer', isStudentLoggedIn, async (req, res) => {
   }
 
   try {
-    // prima recupera gli assignment dello studente
-    // const assignments = await userDao.getAssignmentsForStudent(req.user.id);
-
-    // if (!assignments.includes(assignmentId)) {
-    //   return res.status(403).json({ error: "You are not in the group for this assignment" });
-    // }
-
-    // ok, aggiorno la risposta
     await studentDao.updateAnswer(assignmentId, answerText);
     res.status(200).json({ message: "Answer submitted correctly" });
 
