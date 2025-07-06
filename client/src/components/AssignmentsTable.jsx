@@ -8,9 +8,19 @@ function AssignmentsTable(props) {
 
   useEffect(() => {
     const getAssignments = async () => {
-      const data = await API.getAssignments();
-      setAssignments(data);
+      try {
+        let data;
+        if (props.role === "teacher") {
+          data = await API.getAssignments();
+        } else {
+          data = await API.getAssignmentsStudent();
+        }
+        setAssignments(data);
+      } catch (error) {
+        console.error("Error loading assignments:", error);
+      }
     };
+
     getAssignments();
   }, []);
 
@@ -49,7 +59,6 @@ function AssignmentsTable(props) {
                 <th>Question</th>
                 <th>Teacher</th>
                 <th>Group Members</th>
-                <th>Grade</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -59,7 +68,6 @@ function AssignmentsTable(props) {
                   <td>{a.question}</td>
                   <td>{a.teacher}</td>
                   <td>{a.groupMembers.join(", ")}</td>
-                  <td>{a.grade ?? "-"}</td>
                   <td>
                     <Link
                       className="btn"
@@ -83,7 +91,7 @@ function AssignmentsTable(props) {
         
         <Row>
           <Col md={10}>
-            <div style={{ maxHeight: "400px", overflowY: "auto" }}>
+            <div style={{ maxHeight: "400px", overflowY: "auto" }} className="mb-4">
               <Table striped bordered hover responsive>
                 <thead>
                   <tr>

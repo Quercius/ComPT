@@ -6,7 +6,8 @@ import { Card, Alert, Form, Button } from 'react-bootstrap';
 function AssignmentDetails(props) {
   const [assignment, setAssignment] = useState(null);
   const [vote, setVote] = useState('');
-  const [editableAnswer, setEditableAnswer] = useState('');  // stato locale per l'answer
+  const [editableAnswer, setEditableAnswer] = useState('');  
+  const [error, setError] = useState(null);
 
   const { id } = useParams();
 
@@ -16,7 +17,7 @@ function AssignmentDetails(props) {
     const getAssignment = async () => {
       const assignment = await API.getAssignmentById(id);
       setAssignment(assignment);
-      setEditableAnswer(assignment.answer || '');  // inizializza l'answer editabile
+      setEditableAnswer(assignment.answer || ''); 
     }
     getAssignment();
   }, [id]);
@@ -37,7 +38,7 @@ function AssignmentDetails(props) {
 
       <div className="d-flex gap-3">
 
-        <Card className="flex-grow-1">
+        <Card className="flex-grow-1 mb-4">
           <Card.Body>
             <Card.Title>Answer</Card.Title>
             {props.role==="teacher" ? (<Card.Text>
@@ -70,7 +71,7 @@ function AssignmentDetails(props) {
         </Card>
 
         {!(props.role==="student" && assignment.grade === null) &&
-        (<Card style={{ width: '200px' }}>
+        (<Card className={'mb-4'} style={{ width: '200px' }}>
           <Card.Body>
             <Card.Title className="text-center">Grade</Card.Title> 
             {props.role === "teacher" ? (
@@ -110,6 +111,8 @@ function AssignmentDetails(props) {
         </Button>
       ) : (
         <>
+          {error && <Alert variant="danger">{error}</Alert>}
+          
           <Button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>
             Back
           </Button>
@@ -117,24 +120,37 @@ function AssignmentDetails(props) {
             className="btn mt-3 ms-2" 
             style={{ backgroundColor: "#38b2ac", borderColor: "#38b2ac" }}
             disabled={vote === ''}
-            onClick={() => {
-              API.setGrade(id, vote);
-              navigate(-1);
+            onClick={async () => {
+              try {
+                await API.setGrade(id, vote);
+                navigate(-1);
+              } catch (err) {
+                setError(err.message);
+              }
             }}
           >
             Evaluate
           </Button>) : (
             <Button
-              className="btn btn-primary mt-3 ms-2" style={{ backgroundColor: "#38b2ac", borderColor: "#38b2ac" }}
-              disabled={(editableAnswer === assignment.answer) || (editableAnswer==='' && !assignment.answer) || editableAnswer===''}
-              onClick={() => {
-                //console.log("Saving answer:", editableAnswer);
-                API.setAnswer(id, editableAnswer);
-                navigate(-1);
+              className="btn btn-primary mt-3 ms-2"
+              style={{ backgroundColor: "#38b2ac", borderColor: "#38b2ac" }}
+              disabled={
+                (editableAnswer === assignment.answer) ||
+                (editableAnswer === '' && !assignment.answer) ||
+                editableAnswer === ''
+              }
+              onClick={async () => {
+                try {
+                  await API.setAnswer(id, editableAnswer);
+                  navigate(-1);
+                } catch (err) {
+                  setError(err.message);
+                }
               }}
             >
               {assignment.answer ? "Edit" : "Add Answer"}
             </Button>
+
           )}
         </>
       )}

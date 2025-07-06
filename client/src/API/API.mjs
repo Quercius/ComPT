@@ -35,7 +35,7 @@ const getClassStatus = async () => {
   }
 };
 
-// GET api/assignments
+// GET api/assignments (teacher)
 const getAssignments = async () => {
   const response = await fetch(SERVER_URL + "/api/assignments", {
     credentials: 'include'   
@@ -57,6 +57,27 @@ const getAssignments = async () => {
   }
 };
 
+// GET api/assignments (student)
+const getAssignmentsStudent = async () => {
+  const response = await fetch(SERVER_URL + "/api/my-assignments", {
+    credentials: 'include'   
+  });
+  if (response.ok) {
+    const json = await response.json();
+    return json.map(a => ({
+      id: a.id,
+      question: a.question,
+      status: a.status,
+      teacher: a.teacher,
+      grade: a.grade,
+      groupMembers: Array.isArray(a.groupMembers) ? a.groupMembers : [],
+      hasAnswer: a.hasAnswer === true || a.hasAnswer === 1
+    }));
+  } else {
+    const err = await response.json();
+    throw new Error(err.error || "Failed to load assignments");
+  }
+};
 
 // GET /api/assignments/<id>
 const getAssignmentById = async (id) => {
@@ -184,6 +205,7 @@ const API = {
   getStudents,
   getClassStatus,
   getAssignments,
+  getAssignmentsStudent,
   getAssignmentById,
   addAssignment,
   setGrade,

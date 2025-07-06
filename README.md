@@ -234,6 +234,8 @@ Description: Allows a student to submit or update their answer to an assignment.
 
   - `400 Bad Request` if answer text missing
 
+  - `409 Conflict` in teacher evaluates assignment while student writes the answer
+
   - `500 Internal Server Error` on error
 
 (Se volessi aggiungere un controllo per verificare l’appartenenza al gruppo, potresti prevedere un 403 Forbidden)
@@ -260,6 +262,8 @@ Description: Allows a teacher to set a grade and automatically close an assignme
   - `200 OK` on success
 
   - `400 Bad Request` if grade invalid
+
+  - `409 Conflict` in case of multiple evaluation  
 
   - `500 Internal Server Error` on error
 

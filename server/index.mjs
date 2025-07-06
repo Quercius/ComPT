@@ -90,7 +90,7 @@ app.get('/api/class-status', isTeacherLoggedIn, async (req, res) => {
 });
 
 // GET elenco dei compiti di un professore
-app.get('/api/assignments', isLoggedIn, async (req, res) => {
+app.get('/api/assignments', isTeacherLoggedIn, async (req, res) => {
   try {
     const assignments = await teacherDao.listAssignments(req.user.id);
     res.json(assignments);
@@ -101,7 +101,7 @@ app.get('/api/assignments', isLoggedIn, async (req, res) => {
 });
 
 // GET elenco dei compiti di uno studente
-app.get('/api/my-assignments', isLoggedIn, async (req, res) => {
+app.get('/api/my-assignments', isStudentLoggedIn, async (req, res) => {
   try {
     const assignments = await studentDao.listAssignments(req.user.id);
     res.json(assignments);
@@ -144,9 +144,7 @@ app.post('/api/assignments', isTeacherLoggedIn, async (req, res) => {
     const conflicts = await teacherDao.findOverusedPairs(teacherId, groupMembers);
     if (conflicts.length > 0) {
       return res.status(400).json({
-        error: `Some students have already worked together 2 or more times: ${conflicts
-          .map(c => `(${c.s1}, ${c.s2})`)
-          .join(', ')}`
+        error: `some students have already worked together 2 or more times.`
       });
     }
 
@@ -169,14 +167,23 @@ app.put('/api/assignments/:id/answer', isStudentLoggedIn, async (req, res) => {
   }
 
   try {
-    await studentDao.updateAnswer(assignmentId, answerText);
-    res.status(200).json({ message: "Answer submitted correctly" });
+    const assignment = await teacherDao.getAssignment(assignmentId);
+    if (!assignment) {
+      return res.status(404).json({ error: "Assignment not found" });
+    }
+    if (assignment.status === 'closed') {
+      return res.status(409).json({ error: "Assignment already closed, cannot submit answer." });
+    }
 
+    await studentDao.updateAnswer(assignmentId, answerText);
+
+    res.status(200).json({ message: "Answer submitted correctly" });
   } catch (err) {
     console.error("Error submitting answer:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 
 // POST del voto ad un assingment
@@ -190,8 +197,17 @@ app.post('/api/assignments/:id/grade', isTeacherLoggedIn, async (req, res) => {
   }
 
   try {
+    const assignment = await teacherDao.getAssignment(assignmentId);
+    if (!assignment) {
+      return res.status(404).json({ error: 'Assignment not found' });
+    }
+    if (assignment.status === 'closed') {
+      return res.status(409).json({ error: 'Assignment already closed, cannot overwrite grade' });
+    }
+
     await teacherDao.updateGrade(assignmentId, grade);
     await teacherDao.updateStatus(assignmentId, 'closed');
+
     res.status(200).json({ message: 'Correctly evaluated' });
   } catch (err) {
     console.error("Error evaluating the answer", err);

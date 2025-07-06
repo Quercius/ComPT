@@ -28,7 +28,6 @@ function AssignmentForm(props) {
         groupMembers: selectedGroup.map(s => s.value)  
     };
 
-    // Validazioni
     if (assignment.question.trim() === "") {
         return {
         ...assignment,
@@ -53,11 +52,11 @@ function AssignmentForm(props) {
     try {
         await API.addAssignment(assignment);
         navigate("/teacher/assignments");
-        return initialState; // forse può essere levato
+        return initialState; 
     } catch (err) {
         return {
         ...assignment,
-        error: "Failed to save the assignment: " + err.message
+        error: "Failed to create new assignment: " + err.message
         };
     }
     };
