@@ -1,6 +1,6 @@
 import { useActionState, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Button, Alert } from "react-bootstrap";
+import { Form, Button, Alert, Col, Row } from "react-bootstrap";
 import Select from "react-select"; 
 import API from "../API/API.mjs";
 
@@ -23,7 +23,7 @@ function AssignmentForm(props) {
 
   const handleSubmit = async (prevState, formData) => {
     const assignment = {
-        teacherId: props.teacherId, // hardcoded
+        teacherId: props.teacherId, 
         ...Object.fromEntries(formData.entries()),
         groupMembers: selectedGroup.map(s => s.value)  
     };
@@ -73,40 +73,45 @@ function AssignmentForm(props) {
 
   return (
     <>
-      <h2 className="mb-5 text-center">New Assignment:</h2>
+      <h2 className="mb-5 text-center pt-5">New Assignment:</h2>
 
       {state?.error && <Alert variant="secondary">{state.error}</Alert>}
+      <Row className="justify-content-center">
+        <Col md={8}>
+          <Form action={formAction}>
+            <Form.Group>
+              <Form.Label>Question</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={4}
+                style={{ resize: "none" }}
+                name="question"
+                required
+                minLength={2}
+                defaultValue={state.question ?? ""}
+              />
+            </Form.Group>
 
-      <Form action={formAction}>
-        <Form.Group>
-          <Form.Label>Question</Form.Label>
-          <Form.Control
-            name="question"
-            type="text"
-            required
-            minLength={2}
-            defaultValue={state.question ?? ""}
-          />
-        </Form.Group>
+            <Form.Group>
+              <Form.Label className="mt-4">Group Members</Form.Label>
+              <Select
+                isMulti
+                options={students.map(s => ({
+                  value: s.id,
+                  label: `${s.name} ${s.surname}`
+                }))}
+                value={selectedGroup}
+                onChange={setSelectedGroup}
+              />
+            </Form.Group>
 
-        <Form.Group>
-          <Form.Label>Group Members</Form.Label>
-          <Select
-            isMulti
-            options={students.map(s => ({
-              value: s.id,
-              label: `${s.name} ${s.surname}`
-            }))}
-            value={selectedGroup}
-            onChange={setSelectedGroup}
-          />
-        </Form.Group>
+            <Button type="submit" className="mt-4" style={{ backgroundColor: "#38b2ac", borderColor: "#38b2ac" }}>Add</Button> 
+              
+            <Button type="button" className="btn btn-danger mt-4 ms-2" onClick={() => navigate(-1)}>Back</Button>
 
-        <Button type="submit" className="mt-4" style={{ backgroundColor: "#38b2ac", borderColor: "#38b2ac" }}>Add</Button> 
-           
-        <Button type="button" className="btn btn-danger mt-4 ms-2" onClick={() => navigate(-1)}>Back</Button>
-
-      </Form>
+          </Form>
+        </Col>
+      </Row>
     </>
   );
 }

@@ -369,7 +369,13 @@ Shows a sortable table with an overview of class members, including their name, 
 
 ## Screenshot
 
-![Screenshot](./img/screenshot.jpg)
+Class status:
+
+![class-status](./img/class-status.png)
+
+Game round of a logged in user (with its profile information opened):
+
+![new-assignment](./img/new-assignment.png)
 
 ## Users Credentials
 
