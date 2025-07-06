@@ -380,16 +380,28 @@ Game round of a logged in user (with its profile information opened):
 ## Users Credentials
 
 ### Students
-- luca.bianchi@example.com, password1
-- giulia.rossi@example.com, password2
-- marco.verdi@example.com, password3
-- elena.neri@example.com, password4
-- francesco.russo@example.com, password5
-- sara.conti@example.com, password6
-- alessia.gallo@example.com, password7
-- davide.fontana@example.com, password8
-- martina.romano@example.com, password9
+- luca.bianchi@example.com, password  
+- giulia.rossi@example.com, password  
+- marco.verdi@example.com, password  
+- elena.neri@example.com, password  
+- francesco.russo@example.com, password  
+- sara.conti@example.com, password  
+- alessia.gallo@example.com, password  
+- davide.fontana@example.com, password  
+- martina.romano@example.com, password  
+- giorgio.esposito@example.com, password  
+- viola.mancini@example.com, password  
+- fabio.moretti@example.com, password  
+- chiara.gentile@example.com, password  
+- michele.rizzo@example.com, password  
+- alberto.marino@example.com, password  
+- laura.colombo@example.com, password  
+- simone.ferraro@example.com, password  
+- irene.barbieri@example.com, password  
+- pietro.martini@example.com, password  
+- francesca.leone@example.com, password  
+
 
 ### Teachers
-- anna.ferrari@example.com, teachpass1
-- paolo.greco@example.com, teachpass2
+- anna.ferrari@example.com, password
+- paolo.greco@example.com, password
