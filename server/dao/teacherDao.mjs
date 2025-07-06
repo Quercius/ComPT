@@ -91,6 +91,10 @@ const teacherDao = {
 
   // aggiunge un nuovo assignment 
   createAssignment: (teacherId, question, groupMembers) => {
+    if (!Array.isArray(groupMembers) || groupMembers.length < 2 || groupMembers.length > 6) {
+      reject(new Error("Group must contain between 2 and 6 students"));
+      return;
+    }
     return new Promise((resolve, reject) => {
       // inserimento nuovo assignment nella tabella Assignments
       const insertAssignmentSql = `
