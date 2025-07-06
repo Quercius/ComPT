@@ -85,8 +85,8 @@ function AssignmentDetails(props) {
                     }}
                   >
                     <option value="">--</option>
-                    {Array.from({ length: 30 }, (_, i) => (
-                      <option key={i} value={i + 1}>{i + 1}</option>
+                    {Array.from({ length: 31 }, (_, i) => (
+                      <option key={i} value={i}>{i}</option>
                     ))}
                   </Form.Select>
                 </Form.Group>
