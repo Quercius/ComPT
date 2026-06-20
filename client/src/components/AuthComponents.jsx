@@ -33,11 +33,9 @@ function LoginForm(props) {
     
       <h2 className="mb-4 pt-5 text-center">Log In</h2>
 
-      {/* Usiamo justify-content-center per centrare orizzontalmente */}
       <Row className="justify-content-center mt-4 m-0">
         
-        {/* INVECE DELLE COLONNE: un div con larghezza massima fissa e mx-auto (margine automatico) per centrarlo */}
-        <div style={{ maxWidth: '450px', width: '100%' }} className="mx-auto px-3">
+        <div style={{ maxWidth: '550px', width: '100%' }} className="mx-auto px-3">
           <Form action={formAction}>
             <div className="mb-3">
               <Form.Label htmlFor="username">Email</Form.Label>
@@ -67,7 +65,6 @@ function LoginForm(props) {
               </Alert>
             )}
 
-            {/* HO AGGIUNTO justify-content-center: ora i bottoni saranno perfettamente al centro sotto le caselle */}
             <div className="d-flex justify-content-center align-items-center gap-3 mt-4 mb-3">
                 <Button
                   type="submit"

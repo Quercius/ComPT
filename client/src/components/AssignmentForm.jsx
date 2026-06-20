@@ -1,6 +1,6 @@
 import { useActionState, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Button, Alert, Col, Row } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
 import Select from "react-select"; 
 import API from "../API/API.mjs";
 
@@ -63,7 +63,6 @@ function AssignmentForm(props) {
   const [state, formAction] = useActionState(handleSubmit, initialState);
 
   useEffect(() => {
-    // Quando cambia state.group (dopo submit), aggiorniamo il selezionato
     setSelectedGroup(
       students
         .filter(s => state.group?.includes(s.id))
@@ -75,9 +74,12 @@ function AssignmentForm(props) {
     <>
       <h2 className="mb-5 text-center pt-5">New Assignment:</h2>
 
-      {state?.error && <Alert variant="secondary">{state.error}</Alert>}
-      <Row className="justify-content-center">
-        <Col md={8}>
+      <div className="d-flex justify-content-center px-3">
+        
+        <div style={{ width: "100%", maxWidth: "600px" }}>
+          
+          {state?.error && <Alert variant="secondary">{state.error}</Alert>}
+
           <Form action={formAction}>
             <Form.Group>
               <Form.Label>Question</Form.Label>
@@ -105,13 +107,14 @@ function AssignmentForm(props) {
               />
             </Form.Group>
 
-            <Button type="submit" className="mt-4" style={{ backgroundColor: "#38b2ac", borderColor: "#38b2ac" }}>Add</Button> 
-              
-            <Button type="button" className="btn btn-danger mt-4 ms-2" onClick={() => navigate(-1)}>Back</Button>
+            <div className="d-flex justify-content-center align-items-center gap-3 mt-5 mb-3">
+              <Button type="submit" style={{ backgroundColor: "#38b2ac", borderColor: "#38b2ac", minWidth: "100px" }}>Add</Button> 
+              <Button type="button" className="btn btn-danger" style={{ minWidth: "100px" }} onClick={() => navigate(-1)}>Back</Button>
+            </div>
 
           </Form>
-        </Col>
-      </Row>
+        </div>
+      </div>
     </>
   );
 }
