@@ -1,5 +1,5 @@
 import { useActionState } from "react";
-import { Button, Form, Row, Col, Alert, Spinner} from 'react-bootstrap'
+import { Button, Form, Row, Col, Alert, Spinner } from 'react-bootstrap'
 import { Link } from 'react-router'
     
 function LoginForm(props) {
@@ -14,25 +14,30 @@ function LoginForm(props) {
             password: formData.get('password'),
         };
 
-        try{
+        try {
             await props.handleLogin(credentials);
-            return { success: true};
+            return { success: true };
         }
         catch(error) {
-            return { error: 'Login failed: wrong credentials.'}
+            return { error: 'Login failed: wrong credentials.' }
         }
     }
 
     return (
     <>
       {isPending && (
-        <Spinner animation="border" variant="primary" />
+        <div className="text-center mt-3">
+            <Spinner animation="border" variant="primary" />
+        </div>
       )}
     
       <h2 className="mb-4 pt-5 text-center">Log In</h2>
 
-      <Row className="justify-content-center mt-5">
-        <Col md={5}>
+      {/* Usiamo justify-content-center per centrare orizzontalmente */}
+      <Row className="justify-content-center mt-4 m-0">
+        
+        {/* INVECE DELLE COLONNE: un div con larghezza massima fissa e mx-auto (margine automatico) per centrarlo */}
+        <div style={{ maxWidth: '450px', width: '100%' }} className="mx-auto px-3">
           <Form action={formAction}>
             <div className="mb-3">
               <Form.Label htmlFor="username">Email</Form.Label>
@@ -62,22 +67,26 @@ function LoginForm(props) {
               </Alert>
             )}
 
-            <Button
-              type="submit"
-              disabled={isPending}
-              style={{ backgroundColor: "#38b2ac", borderColor: "#38b2ac" }}
-            >
-              Login
-            </Button>
-            <Link
-              className="btn btn-danger mx-2 my-2"
-              to="/"
-              disabled={isPending}
-            >
-              Cancel
-            </Link>
+            {/* HO AGGIUNTO justify-content-center: ora i bottoni saranno perfettamente al centro sotto le caselle */}
+            <div className="d-flex justify-content-center align-items-center gap-3 mt-4 mb-3">
+                <Button
+                  type="submit"
+                  disabled={isPending}
+                  style={{ backgroundColor: "#38b2ac", borderColor: "#38b2ac" }}
+                >
+                  Login
+                </Button>
+                
+                <Link
+                  className={`btn btn-danger ${isPending ? 'disabled' : ''}`}
+                  to="/"
+                  style={{ pointerEvents: isPending ? 'none' : 'auto' }}
+                >
+                  Cancel
+                </Link>
+            </div>
           </Form>
-        </Col>
+        </div>
       </Row>
     </>
   );
