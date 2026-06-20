@@ -72,25 +72,24 @@
         <Route element={<DefaultLayout message={message} setMessage={setMessage} handleLogout={handleLogout} loggedIn={loggedIn} role={user.role}/>}>
 
           {/* Routes protette per teacher */}
-          <Route path="teacher" element={(loggedIn && user.role==="teacher") ? <HomePage user={user} loggedIn={loggedIn} setMessage={setMessage}/> : <Navigate to="/*" />} />
+          <Route path="teacher" element={(loggedIn && user.role==="teacher") ? <HomePage user={user} loggedIn={loggedIn} setMessage={setMessage}/> : <Navigate to="/" />} />
 
-          <Route path="teacher/class-status" element = {(loggedIn && user.role === "teacher") ? <ClassStatus /> : <Navigate to="/*" />} />
+          <Route path="teacher/class-status" element = {(loggedIn && user.role === "teacher") ? <ClassStatus /> : <Navigate to="/" />} />
 
-          <Route path="teacher/assignments" element={(loggedIn && user.role === "teacher") ? <AssignmentsTable assignments role={user.role}/> : <Navigate to="/*" />} />
+          <Route path="teacher/assignments" element={(loggedIn && user.role === "teacher") ? <AssignmentsTable assignments role={user.role}/> : <Navigate to="/" />} />
 
-          <Route path="teacher/assignments/new" element={(loggedIn && user.role === "teacher") ? <AssignmentForm teacherId={user.id} /> : <Navigate to="/*" />} />
+          <Route path="teacher/assignments/new" element={(loggedIn && user.role === "teacher") ? <AssignmentForm teacherId={user.id} /> : <Navigate to="/" />} />
 
-          <Route path="teacher/assignments/:id/answer" element={(loggedIn && user.role === "teacher") ? <AssignmentDetails role={user.role}/> : <Navigate to="/*" /> } />
+          <Route path="teacher/assignments/:id/answer" element={(loggedIn && user.role === "teacher") ? <AssignmentDetails role={user.role}/> : <Navigate to="/" /> } />
 
           {/* Routes protette per student */}
-          <Route path="student" element={(loggedIn && user.role==="student") ? <HomePage user={user} loggedIn={loggedIn} setMessage={setMessage}/> : <Navigate to="/*" />} />
+          <Route path="student" element={(loggedIn && user.role==="student") ? <HomePage user={user} loggedIn={loggedIn} setMessage={setMessage}/> : <Navigate to="/" />} />
 
-          <Route path="student/assignments" element={(loggedIn && user.role === "student") ? <AssignmentsTable assignments role={user.role}/> : <Navigate to="/*" />} />
+          <Route path="student/assignments" element={(loggedIn && user.role === "student") ? <AssignmentsTable assignments role={user.role}/> : <Navigate to="/" />} />
 
-          <Route path="student/assignments/:id/answer" element={(loggedIn && user.role === "student") ? <AssignmentDetails role={user.role} /> : <Navigate to="/*" /> } />
+          <Route path="student/assignments/:id/answer" element={(loggedIn && user.role === "student") ? <AssignmentDetails role={user.role} /> : <Navigate to="/" /> } />
 
           {/* Rotte generali per login o non valide */}
-
           <Route path="login" element={ loggedIn ? <Navigate to={`/`} /> : <LoginForm handleLogin={handleLogin} /> } />
 
           <Route path="*" element={<p className="pt-5">Page not found: URL is not valid</p>} />
