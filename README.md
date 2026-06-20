@@ -3,6 +3,7 @@
 ![Frontend](https://img.shields.io/badge/Frontend-React-61DAFB)
 ![Backend](https://img.shields.io/badge/Backend-Node.js-339933)
 ![Database](https://img.shields.io/badge/Database-SQLite-003B57)
+![Authentication](https://img.shields.io/badge/Authentication-Passport.js-34E27A?logo=passport)
 ![Styling](https://img.shields.io/badge/Styling-Bootstrap-7952B3)
 
 **COMPT** is a full-stack web application designed to streamline the workflow between teachers and students. It provides a simple and powerful platform where teachers can create group assignments, monitor class progress, and grade submissions. Students, on the other hand, can easily log in, check their pending tasks, collaborate with their assigned group members, and submit their final answers. The app features a responsive design and a secure, role-based authentication system.
