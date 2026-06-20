@@ -1,3 +1,14 @@
+# COMPT - Classroom Oriented Manager for Projects & Tasks
+
+![Frontend](https://img.shields.io/badge/Frontend-React-61DAFB)
+![Backend](https://img.shields.io/badge/Backend-Node.js-339933)
+![Database](https://img.shields.io/badge/Database-SQLite-003B57)
+![Styling](https://img.shields.io/badge/Styling-Bootstrap-7952B3)
+
+**COMPT** is a full-stack web application designed to streamline the workflow between teachers and students. It provides a simple and powerful platform where teachers can create group assignments, monitor class progress, and grade submissions. Students, on the other hand, can easily log in, check their pending tasks, collaborate with their assigned group members, and submit their final answers. The app features a responsive design and a secure, role-based authentication system.
+
+---
+
 ## React Client Application Routes
 
 - Route `/`
@@ -367,11 +378,11 @@ Shows a sortable table with an overview of class members, including their name, 
 
 Class status:
 
-![class-status](./img/class-status.png)
+<img width="1918" height="868" alt="Image" src="https://github.com/user-attachments/assets/0b693e8f-3eea-4f95-a922-55f39983a4ca" />
 
-Game round of a logged in user (with its profile information opened):
+Teacher form to create a new assignment:
 
-![new-assignment](./img/new-assignment.png)
+<img width="1695" height="801" alt="Image" src="https://github.com/user-attachments/assets/2f6be8b2-e917-4ff3-a4a1-25775cbae4c9" />
 
 ## Users Credentials
 
